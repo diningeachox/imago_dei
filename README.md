@@ -2,4 +2,4 @@
  
 Three.js game made for Game Off 2021.
 
-[Play here]https://diningeachox.itch.io/imago-dei
+[Play here](https://diningeachox.itch.io/imago-dei)
