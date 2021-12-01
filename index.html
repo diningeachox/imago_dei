@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Imago Dei</title>
+		<style>
+			body { margin: 0; }
+			.wrapper {
+          position: relative;
+      }
+      .wrapper canvas {
+          position: absolute;
+          top: 0%;
+          left: 0%;
+          display: block;
+          margin: 0 auto;
+      }
+
+      #loading {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+      #loading .progress {
+
+					position: relative;
+          margin: 1.5em;
+          border: 1px solid white;
+          width: 40vw;
+      }
+      #loading .progressbar {
+
+					position: relative;
+          margin: 2px;
+          background: white;
+          height: 1em;
+          transform-origin: top left;
+          transform: scaleX(0);
+      }
+			#loading .status
+      {
+          font-family:    Arial;
+          font-size:      30px;
+          font-weight:    bold;
+      }
+		</style>
+	</head>
+	<body>
+		<div class="wrapper" oncontextmenu="return false;">
+		    <canvas id=canvas width=1000 height=580
+		        style=" z-index: 1;"></canvas>
+		    <canvas id="terra" width="1000" height="580"
+		        style=" z-index: 2;"></canvas>
+				<canvas id="build" width="1000" height="580"
+		        style=" z-index: 3;"></canvas>
+				<canvas id="indicators" width="1000" height="580"
+		        style=" z-index: 4;"></canvas>
+				<canvas id="tut" width="1000" height="580"
+		        style=" z-index: 5;"></canvas>
+				<canvas id="status" width="1000" height="580"
+		        style=" z-index: 6;"></canvas>
+				<canvas id="warning" width="1000" height="580"
+		        style=" z-index: 7;"></canvas>
+				<canvas id="mySlider" title="My Slider"
+						style=" z-index: 8;"></canvas>
+
+		</div>
+		<div id="loading">
+		   <div class="progress"><div class="progressbar" style=" z-index: 0;"></div></div>
+			 <br>
+			 <div class="status"></div>
+		 </div>
+		<script> window.ECS = {
+		           Components: {},
+
+		           systems: {},
+		           entities: [],
+		           game: {}
+		    };
+
+				window.ready = 0;
+			document.body.style.backgroundColor = "black";</script>
+
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="https://unpkg.com/d3-delaunay@4"></script>
+		<script src="https://unpkg.com/d3-geo-voronoi@1"></script>
+
+		<script type="text/javascript" src="entity.js"></script>
+
+		<script type="text/javascript" src="components.js"></script>
+
+		<script type="text/javascript" src="system.js"></script>
+
+		<script type="text/javascript" src="utils.js"></script>
+		<script type="text/javascript" src="dialog.js"></script>
+		<script type="text/javascript" src="canvasslider.js"></script>
+		<script type="module" src="planet.js"></script>
+		<script id="assets" type="module" src="assets.js"></script>
+
+		<script type="module" src="scenes.js"></script>
+		<script type="module" src="game.js"></script>
+
+
+		<script>
+		//Disable context menu on right click
+		window.addEventListener("contextmenu", e => e.preventDefault());
+		var images = []; //Array with image objects
+		//Image sources
+    var arr = [
+        "faces/ag_minister.jpg",
+				"faces/commander.jpg",
+				"faces/dyson.jpg",
+				"faces/president.jpg",
+				"faces/tech_minister.jpg",
+				"faces/entity.jpg",
+				"faces/planet.jpg",
+				"textures/dyson_sphere.jpg",
+				"textures/farm.png",
+				"textures/drop.png",
+				"textures/power.png",
+				"textures/energy.png",				
+				"textures/thermo.png",
+				"textures/alien-bug.png",
+				"textures/mineral.png"
+    ];
+    //Preload Images
+    function ImageLoader(sources, callback)
+    {
+        var loadedImages = 0;
+        var numImages = sources.length;
+
+        for (i = 0; i < numImages; i++) {
+            images[i] = new Image();
+            images[i].onload = function() {
+                if (++loadedImages >= numImages) {
+                    callback(images);
+                }
+            };
+            images[i].src = sources[i];
+        }
+    }
+
+		var titles = ["Amanda La Forge \n Agricultral Minister",
+									"Victor Rivarez \n Commander",
+									"Icarus \n Dyson Sphere",
+									"Lucinda Ciccolini \n President",
+									"Kahlil Ibrahim \n Technology Minister",
+									"??? \n Unknown",
+									"M'Kymni \n Living Planet"
+		]
+    var loader = ImageLoader(arr, function() {
+
+        // Draw all of the loaded images
+        for (var i = 0; i < images.length; i++) {
+            console.log("Image " + (i + 1) + " is loaded!");
+        }
+
+    });
+
+		var cur_dialog = -2;
+		document.documentElement.style.overflow = 'hidden'
+		document.body.scroll = "no";
+		</script>
+
+		<script type="module">
+		import {init} from './game.js';
+
+		 //window.onload = init;
+	 </script>
+	</body>
+</html>
